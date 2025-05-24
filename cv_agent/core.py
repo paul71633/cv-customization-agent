@@ -8,6 +8,7 @@ import PyPDF2
 from docx import Document
 from .llm_integration import LLMContentRewriter, RewriteRequest, RewriteResponse
 import logging
+from .config import Config
 
 class CompleteCVAgent:
     """Complete CV Analysis and Job Matching Agent - Local Version"""
@@ -38,7 +39,7 @@ class CompleteCVAgent:
 
     # ==================== FILE HANDLING ====================
 
-    def analyze_cv_from_file(self, file_path: str) -> Dict[str, Any]:
+    def analyze_cv_from_file(self, file_path: str):
         """Analyze CV from local file path"""
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"File not found: {file_path}")
@@ -51,8 +52,9 @@ class CompleteCVAgent:
         with open(file_path, 'rb') as file:
             file_content = file.read()
         
-        file_size = len(file_content) / 1024  # KB
-        print(f"📊 File size: {file_size:.1f} KB")
+        file_size_mb = len(file_content) / (1024 * 1024)  # Convert to MB
+        if file_size_mb > Config.MAX_FILE_SIZE_MB:
+            raise ValueError(f"File size ({file_size_mb:.1f}MB) exceeds maximum allowed size ({Config.MAX_FILE_SIZE_MB}MB)")
 
         # Extract text based on file extension
         file_extension = filename.lower().split('.')[-1]
@@ -61,12 +63,12 @@ class CompleteCVAgent:
             text = self.extract_text_from_pdf_bytes(file_content)
         elif file_extension in ['docx', 'doc']:
             text = self.extract_text_from_docx_bytes(file_content)
-        else:
-            raise ValueError(f"Unsupported format: {file_extension}")
+        if file_extension not in Config.SUPPORTED_FORMATS:
+            raise ValueError(f"Unsupported format: {file_extension}. Supported: {Config.SUPPORTED_FORMATS}")
 
         return self._analyze_cv_text(text, filename)
 
-    def extract_text_from_pdf_bytes(self, file_content: bytes) -> str:
+    def extract_text_from_pdf_bytes(self, file_content: bytes):
         """Extract text from PDF bytes"""
         try:
             pdf_file = BytesIO(file_content)

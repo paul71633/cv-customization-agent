@@ -12,6 +12,7 @@ from dataclasses import dataclass
 import requests
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import torch
+from .config import Config
 
 @dataclass
 class RewriteRequest:
@@ -39,8 +40,8 @@ class LLMContentRewriter:
     """
     
     def __init__(self, huggingface_token: str = None, use_local: bool = False):
-        self.huggingface_token = huggingface_token or os.getenv('HUGGINGFACE_TOKEN')
-        self.use_local = use_local
+        self.huggingface_token = huggingface_token or Config.HUGGINGFACE_TOKEN
+        self.use_local = use_local or Config.USE_LOCAL_MODELS
         self.model = None
         self.tokenizer = None
         self.pipeline = None
@@ -49,12 +50,7 @@ class LLMContentRewriter:
         self.api_base = "https://api-inference.huggingface.co/models"
         
         # Model configurations
-        self.models = {
-            'text_generation': 'microsoft/DialoGPT-medium',  # For general text generation
-            'summarization': 'facebook/bart-large-cnn',      # For content condensing
-            'text2text': 'google/flan-t5-base',            # For text transformation
-            'grammar': 'grammarly/coedit-large'             # For grammar and style
-        }
+        self.models = Config.DEFAULT_MODELS
         
         self._initialize_models()
     
@@ -101,7 +97,7 @@ class LLMContentRewriter:
         else:
             raise Exception(f"API connection failed: {response.status_code}")
     
-    def _call_huggingface_api(self, model_name: str, inputs: Dict[str, Any]) -> Dict[str, Any]:
+    def _call_huggingface_api(self, model_name: str, inputs: Dict[str, Any]):
         """Make API call to Hugging Face"""
         headers = {"Authorization": f"Bearer {self.huggingface_token}"}
         url = f"{self.api_base}/{model_name}"
@@ -113,7 +109,7 @@ class LLMContentRewriter:
         else:
             raise Exception(f"API call failed: {response.status_code} - {response.text}")
     
-    def rewrite_cv_section(self, request: RewriteRequest) -> RewriteResponse:
+    def rewrite_cv_section(self, request: RewriteRequest):
         """
         Main method to rewrite CV content based on requirements
         """
@@ -157,7 +153,7 @@ class LLMContentRewriter:
             # Fallback to template-based rewriting
             return self._template_based_rewrite(request)
     
-    def _rewrite_achievements(self, request: RewriteRequest) -> str:
+    def _rewrite_achievements(self, request: RewriteRequest):
         """Rewrite achievement-focused content"""
         prompt = self._build_achievement_prompt(request)
         
@@ -166,7 +162,7 @@ class LLMContentRewriter:
         else:
             return self._generate_with_api(prompt, "text2text")
     
-    def _rewrite_skills_section(self, request: RewriteRequest) -> str:
+    def _rewrite_skills_section(self, request: RewriteRequest):
         """Rewrite skills section with better organization"""
         prompt = self._build_skills_prompt(request)
         
@@ -175,7 +171,7 @@ class LLMContentRewriter:
         else:
             return self._generate_with_api(prompt, "text2text")
     
-    def _rewrite_responsibilities(self, request: RewriteRequest) -> str:
+    def _rewrite_responsibilities(self, request: RewriteRequest):
         """Rewrite job responsibilities with action verbs"""
         prompt = self._build_responsibilities_prompt(request)
         
@@ -184,7 +180,7 @@ class LLMContentRewriter:
         else:
             return self._generate_with_api(prompt, "text2text")
     
-    def _general_rewrite(self, request: RewriteRequest) -> str:
+    def _general_rewrite(self, request: RewriteRequest):
         """General content rewriting"""
         prompt = self._build_general_prompt(request)
         
@@ -193,7 +189,7 @@ class LLMContentRewriter:
         else:
             return self._generate_with_api(prompt, "text2text")
     
-    def _build_achievement_prompt(self, request: RewriteRequest) -> str:
+    def _build_achievement_prompt(self, request: RewriteRequest):
         """Build prompt for achievement rewriting"""
         base_prompt = f"""
 Rewrite the following professional achievement to be more impactful and quantifiable:
@@ -211,7 +207,7 @@ Rewritten achievement:"""
         
         return base_prompt
     
-    def _build_skills_prompt(self, request: RewriteRequest) -> str:
+    def _build_skills_prompt(self, request: RewriteRequest):
         """Build prompt for skills section rewriting"""
         skills_context = f"Skills to emphasize: {', '.join(request.target_skills)}" if request.target_skills else ""
         
@@ -231,7 +227,7 @@ Rewritten skills section:"""
         
         return prompt
     
-    def _build_responsibilities_prompt(self, request: RewriteRequest) -> str:
+    def _build_responsibilities_prompt(self, request: RewriteRequest):
         """Build prompt for responsibilities rewriting"""
         prompt = f"""
 Rewrite the following job responsibilities using strong action verbs and clear impact:
@@ -249,7 +245,7 @@ Rewritten responsibilities:"""
         
         return prompt
     
-    def _build_general_prompt(self, request: RewriteRequest) -> str:
+    def _build_general_prompt(self, request: RewriteRequest):
         """Build general rewriting prompt"""
         length_instruction = {
             'expand': 'Make it more detailed and comprehensive',
@@ -272,19 +268,18 @@ Rewritten content:"""
         
         return prompt
     
-    def _generate_with_local_model(self, prompt: str) -> str:
+    def _generate_with_local_model(self, prompt: str):
         """Generate content using local model"""
         try:
             # Truncate prompt if too long
-            max_length = 512
-            if len(prompt) > max_length:
-                prompt = prompt[:max_length]
+            if len(prompt) > Config.MAX_TOKENS:
+                prompt = prompt[:Config.MAX_TOKENS]
             
             outputs = self.pipeline(
                 prompt,
                 max_length=len(prompt) + 150,
                 num_return_sequences=1,
-                temperature=0.7,
+                temperature=Config.TEMPERATURE,
                 pad_token_id=self.tokenizer.eos_token_id
             )
             
@@ -301,7 +296,7 @@ Rewritten content:"""
             print(f"⚠️ Local generation failed: {e}")
             return self._template_fallback(prompt)
     
-    def _generate_with_api(self, prompt: str, model_type: str = "text2text") -> str:
+    def _generate_with_api(self, prompt: str, model_type: str = "text2text"):
         """Generate content using Hugging Face API"""
         try:
             model_name = self.models.get(model_type, self.models['text2text'])
@@ -310,7 +305,7 @@ Rewritten content:"""
                 "inputs": prompt,
                 "parameters": {
                     "max_length": len(prompt.split()) + 100,
-                    "temperature": 0.7,
+                    "temperature": Config.TEMPERATURE,
                     "num_return_sequences": 1
                 }
             }
@@ -333,7 +328,7 @@ Rewritten content:"""
             print(f"⚠️ API generation failed: {e}")
             return self._template_fallback(prompt)
     
-    def _template_fallback(self, prompt: str) -> str:
+    def _template_fallback(self, prompt: str):
         """Template-based fallback when LLM fails"""
         # Extract original content from prompt
         content_match = re.search(r'Original: (.*?)(?=\n\nRequirements:)', prompt, re.DOTALL)
@@ -342,7 +337,7 @@ Rewritten content:"""
             return self._apply_template_improvements(original)
         return "Content rewriting unavailable"
     
-    def _apply_template_improvements(self, content: str) -> str:
+    def _apply_template_improvements(self, content: str):
         """Apply template-based improvements"""
         # Basic improvements using regex and templates
         improved = content
@@ -365,7 +360,7 @@ Rewritten content:"""
         
         return improved
     
-    def _template_based_rewrite(self, request: RewriteRequest) -> RewriteResponse:
+    def _template_based_rewrite(self, request: RewriteRequest):
         """Complete template-based rewrite fallback"""
         improved_content = self._apply_template_improvements(request.content)
         
@@ -383,7 +378,7 @@ Rewritten content:"""
             word_count_change=len(improved_content.split()) - len(request.content.split())
         )
     
-    def _generate_improvements(self, original: str, rewritten: str) -> List[str]:
+    def _generate_improvements(self, original: str, rewritten: str):
         """Generate specific improvement suggestions"""
         improvements = []
         
@@ -412,7 +407,7 @@ Rewritten content:"""
         
         return improvements
     
-    def _calculate_confidence_score(self, original: str, rewritten: str) -> float:
+    def _calculate_confidence_score(self, original: str, rewritten: str):
         """Calculate confidence score for the rewrite"""
         score = 0.5  # Base score
         
@@ -447,7 +442,7 @@ Rewritten content:"""
         for improvement in response.improvements:
             print(f"   {improvement}")
     
-    def batch_rewrite_cv_sections(self, cv_data: Dict[str, Any], target_role: str = None) -> Dict[str, Any]:
+    def batch_rewrite_cv_sections(self, cv_data: Dict[str, Any], target_role: str = None):
         """Batch rewrite multiple CV sections"""
         print(f"\n🔄 BATCH REWRITING CV SECTIONS")
         print(f"   Target role: {target_role or 'General optimization'}")
@@ -473,7 +468,7 @@ Rewritten content:"""
         
         return rewritten_sections
     
-    def suggest_cv_improvements(self, cv_data: Dict[str, Any]) -> List[str]:
+    def suggest_cv_improvements(self, cv_data: Dict[str, Any]):
         """Generate overall CV improvement suggestions"""
         suggestions = []
         
