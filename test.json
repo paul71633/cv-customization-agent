@@ -1,0 +1,63 @@
+{
+  "filename": "resume.pdf",
+  "raw_text": "Po-Y en (Paul) Yang\n       \n  \n \n \n \n  \n \n \n  \n \n  \n \n   \n \n  RESEARCH EXPERIENCE\nStudent Research Assistant | The University of Hong Kong Jul 2021-Aug 2021\n•Designed mathematic equations for the new Gibbs-Donnan Effect by considering the pressure related to the osmotic pressure\n•Improved the error rate between predicted calculated results and actual experiment results\nResearcher | National Ilan University Aug 2020-Aug 2021\n•Conducted research about ML utilizing PyTorch and knowledge distillation to build neural networks for image processing\n•Implemented model compression and transfer learning to build a light-weight CNN and utilized cloud computing techniques to\naccelerate model training and inference\n  \n SKILLS\n•Technical Skills: Python, C++, R, Javascript (React), HTML, Vue.js, SQL, Prompt Engineering, Amazon Web Services (AWS)\n•Soft Skills: Leadership, Teamwork, Problem-Solving, Time Management, Project Management| Taipei, Taiwan |+886 909094878 | paul71633@g.ucla.edu |Github Linkedin\n \n|Turing Certs | Taipei, Taiwan Frontend Development Engineer Jul 2020-Oct 2022\n•Developed interface of the product platform for certificate issuers/receivers for 35+ universities/40+ institutes using Javascript\n•Maintained and improved the interface of the official website using HTML, CSS, and Javascript implemented in 9 countries\n•Improved the management system using Vue.js to facilitate account management for product managers and the business\ndevelopment team by enabling them to perform actions on every account and showing user details on a unified web interface\nData Analyst Intern | eCloudvalley Digital Technology | New Taipei City, Taiwan Feb 2021-Jun 2021\n•Developed an end-to-end stock price prediction platform with text classification and sentiment labeling on Reddit comments\nusing TensorFlow, AWS Services (EC2, VPC, SageMaker), and SQL\n•Presented to the clients regarding our research methods, gaining storytelling narratives and interpersonal skills\nData Analyst Intern | PwC | Taipei, Taiwan Dec 2020-Jan 2021\n•Developed an NPS score system for First Bank using ridge regression, logistic regression, and hypothesis testing, which enabled\nFirst Bank to have a better understanding of their service quality and customer feedback\n•Performed a final presentation to First Bank explaining the operational process of the system, gaining facilitation skills\nProduct Manager Intern | QNAP Systems, Inc. | New Taipei City, Taiwan Jul 2020-Aug 2020\n•Led unit testing on x86, ARM NAS products, and Switch\n•Updated and improved all the NAS product information, such as the user manual and internal SOP on the official websiteWORK EXPERIENCE\n| Machine Learning Engineer TSMC | Hsinchu, Taiwan Oct 2023-Present\n•Created a pipeline for data augmentation using beta-VAE to resolve small dataset and data missing issues, leading to model\nperformance increasing by over 10%•Led and conducted automated prompt optimization with Dspy framework with Llama/GPT/Qwen models, increasing\nefficiency by 17% and rewrite component performance by 5.3%•Led LLM research and developed an AI agent using Llama/GPT/Qwen models with LangGraph structure for function calling,\ncode generation, query rewriting, and schema linking, achieving 90.91% accuracy in root cause analysis\n  \n \n \n  PUBLICA TIONS\n•Yang, P.Y., Jhong, S. Y., & Hsia, C. H. (2021, September). Green Coffee Beans Classification Using Attention-Based Features\nand Knowledge Transfer. In 2021 IEEE International Conference on Consumer Electronics-Taiwan (ICCE-TW) (pp. 1-2). IEEE.\nhttps://ieeexplore.ieee.org/document/9603134\n•Jhong, S. Y., Yang, P. Y., & Hsia, C. H. (2022). An Expert Smart Scalp Inspection System Using Deep Learning.\nhttps://myukk.org/SM2017/article.php?ss=3462 Sensors & Materials, 34. \n•\nhttps://ieeexplore.ieee.org/abstract/document/96895312021 Asia-Pacific Signal and Information Processing Association Annual Summit and Conference (APSIPA ASC)\n(pp. 1678-1681). IEEE.Jhong, S. Y., Yang, P. Y., & Hsia, C. H. (2021, December). An Attention based Expert Inspection System for Smart Scalp. In EDUCA TION\nUniversity of California, Los Angeles | Los Angeles, CA Sept 2022-Sept 2023\nMaster of Engineering In Artificial Intelligence  |  GPA: 3.922/4.0\n•Relevant Coursework: Adversarial Robustness of ML Models, Capstone Project with Johnson & Johnson\nThe Hong Kong University of Science and Technology | Hong Kong, China Sept 2018-Dec 2021\nGPA: 3.754/4.3 B.S. In Data Science and Technology / First-Class Honor, Early Graduation  |\n•Academic Student Ambassador for Data Science and Technology\n•SENG Dean’s List (Fall 2018, Spring 2019, Fall 2019, Spring 2020, Fall 2021)\nNanyang Technological University | Singapore Jul 2019-Aug 2019\nSummer Exchange  |  GPA: 5.0/5.0\n•Obtained A+ in the course “Artificial Intelligence and Data Mining”\nHONORS & AWARDS\n•TSMC 2024 2nd Digital Excellence Conference - Group RD: 2nd Place Oct 2024\n•National Quemoy University AI Competition: Gold Prize Award May 2021•TSMC AI Application & Integration Division (AAID) Q1 Quarterly Star Apr 2025",
+  "sections": {
+    "contact_info": "•TSMC 2024 2nd Digital Excellence Conference - Group RD: 2nd Place Oct 2024\n•National Quemoy University AI Competition: Gold Prize Award May 2021•TSMC AI Application & Integration Division (AAID) Q1 Quarterly Star Apr 2025",
+    "summary": "",
+    "experience": "RESEARCH EXPERIENCE\n•Relevant Coursework: Adversarial Robustness of ML Models, Capstone Project with Johnson & Johnson",
+    "skills": "SKILLS\n•Technical Skills: Python, C++, R, Javascript (React), HTML, Vue.js, SQL, Prompt Engineering, Amazon Web Services (AWS)\n•Soft Skills: Leadership, Teamwork, Problem-Solving, Time Management, Project Management| Taipei, Taiwan |+886 909094878 | paul71633@g.ucla.edu |Github Linkedin\n|Turing Certs | Taipei, Taiwan Frontend Development Engineer Jul 2020-Oct 2022\n•Developed interface of the product platform for certificate issuers/receivers for 35+ universities/40+ institutes using Javascript\n•Maintained and improved the interface of the official website using HTML, CSS, and Javascript implemented in 9 countries\n•Improved the management system using Vue.js to facilitate account management for product managers and the business\ndevelopment team by enabling them to perform actions on every account and showing user details on a unified web interface\nData Analyst Intern | eCloudvalley Digital Technology | New Taipei City, Taiwan Feb 2021-Jun 2021\n•Developed an end-to-end stock price prediction platform with text classification and sentiment labeling on Reddit comments\nusing TensorFlow, AWS Services (EC2, VPC, SageMaker), and SQL\n•Presented to the clients regarding our research methods, gaining storytelling narratives and interpersonal skills\nData Analyst Intern | PwC | Taipei, Taiwan Dec 2020-Jan 2021\n•Developed an NPS score system for First Bank using ridge regression, logistic regression, and hypothesis testing, which enabled\nFirst Bank to have a better understanding of their service quality and customer feedback\n•Performed a final presentation to First Bank explaining the operational process of the system, gaining facilitation skills\nProduct Manager Intern | QNAP Systems, Inc. | New Taipei City, Taiwan Jul 2020-Aug 2020\n•Led unit testing on x86, ARM NAS products, and Switch\n•Updated and improved all the NAS product information, such as the user manual and internal SOP on the official websiteWORK EXPERIENCE\n| Machine Learning Engineer TSMC | Hsinchu, Taiwan Oct 2023-Present\n•Created a pipeline for data augmentation using beta-VAE to resolve small dataset and data missing issues, leading to model\nperformance increasing by over 10%•Led and conducted automated prompt optimization with Dspy framework with Llama/GPT/Qwen models, increasing\nefficiency by 17% and rewrite component performance by 5.3%•Led LLM research and developed an AI agent using Llama/GPT/Qwen models with LangGraph structure for function calling,\ncode generation, query rewriting, and schema linking, achieving 90.91% accuracy in root cause analysis\nPUBLICA TIONS\n•Yang, P.Y., Jhong, S. Y., & Hsia, C. H. (2021, September). Green Coffee Beans Classification Using Attention-Based Features\nand Knowledge Transfer. In 2021 IEEE International Conference on Consumer Electronics-Taiwan (ICCE-TW) (pp. 1-2). IEEE.\nhttps://ieeexplore.ieee.org/document/9603134\n•Jhong, S. Y., Yang, P. Y., & Hsia, C. H. (2022). An Expert Smart Scalp Inspection System Using Deep Learning.\nhttps://myukk.org/SM2017/article.php?ss=3462 Sensors & Materials, 34.\n•\nhttps://ieeexplore.ieee.org/abstract/document/96895312021 Asia-Pacific Signal and Information Processing Association Annual Summit and Conference (APSIPA ASC)\n(pp. 1678-1681). IEEE.Jhong, S. Y., Yang, P. Y., & Hsia, C. H. (2021, December). An Attention based Expert Inspection System for Smart Scalp. In EDUCA TION",
+    "education": "Student Research Assistant | The University of Hong Kong Jul 2021-Aug 2021\n•Designed mathematic equations for the new Gibbs-Donnan Effect by considering the pressure related to the osmotic pressure\n•Improved the error rate between predicted calculated results and actual experiment results\nResearcher | National Ilan University Aug 2020-Aug 2021\n•Conducted research about ML utilizing PyTorch and knowledge distillation to build neural networks for image processing\n•Implemented model compression and transfer learning to build a light-weight CNN and utilized cloud computing techniques to\naccelerate model training and inference\nUniversity of California, Los Angeles | Los Angeles, CA Sept 2022-Sept 2023\nMaster of Engineering In Artificial Intelligence  |  GPA: 3.922/4.0\nThe Hong Kong University of Science and Technology | Hong Kong, China Sept 2018-Dec 2021\nGPA: 3.754/4.3 B.S. In Data Science and Technology / First-Class Honor, Early Graduation  |\n•Academic Student Ambassador for Data Science and Technology\n•SENG Dean’s List (Fall 2018, Spring 2019, Fall 2019, Spring 2020, Fall 2021)\nNanyang Technological University | Singapore Jul 2019-Aug 2019\nSummer Exchange  |  GPA: 5.0/5.0\n•Obtained A+ in the course “Artificial Intelligence and Data Mining”\nHONORS & AWARDS",
+    "certifications": "",
+    "projects": "",
+    "other": "Po-Y en (Paul) Yang"
+  },
+  "skills_by_category": {
+    "programming": [
+      "r",
+      "php",
+      "javascript",
+      "python",
+      "java",
+      "c++",
+      "go"
+    ],
+    "web_frontend": [
+      "react",
+      "css",
+      "html",
+      "vue"
+    ],
+    "web_backend": [
+      "spring"
+    ],
+    "database": [
+      "sql"
+    ],
+    "cloud_devops": [
+      "aws"
+    ],
+    "data_science": [
+      "tensorflow",
+      "pytorch"
+    ],
+    "tools_other": [
+      "git"
+    ],
+    "soft_skills": [
+      "project management",
+      "leadership",
+      "teamwork",
+      "time management"
+    ]
+  },
+  "contact_details": {
+    "email": "paul71633@g.ucla.edu",
+    "phone": ""
+  },
+  "statistics": {
+    "word_count": 697,
+    "char_count": 5050,
+    "total_skills": 21,
+    "sections_found": 5
+  }
+}

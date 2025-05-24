@@ -207,7 +207,7 @@ class CompleteCVAgent:
             contact['email'] = emails[0]
 
         # Phone
-        phone_pattern = r'(\+?1[-.\\s]?)?\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}'
+        phone_pattern = r'(\+?1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}'
         phones = re.findall(phone_pattern, text)
         if phones:
             contact['phone'] = ''.join(phones[0]) if isinstance(phones[0], tuple) else phones[0]

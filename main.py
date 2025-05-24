@@ -11,10 +11,12 @@ from cv_agent.core import CompleteCVAgent
 def get_file_path():
     """Get CV file path from user with validation"""
     while True:
-        file_path = input("\n📁 Enter path to your CV file (PDF/DOCX): ").strip()
+        # file_path = input("\n📁 Enter path to your CV file (PDF/DOCX): ").strip()
         
-        # Handle quotes around file path
-        file_path = file_path.strip('"').strip("'")
+        # # Handle quotes around file path
+        # file_path = file_path.strip('"').strip("'")
+        
+        file_path = "external_lib/resume.pdf"
         
         if not file_path:
             print("❌ Please enter a file path")
@@ -142,7 +144,7 @@ def quick_test():
     - Collaborate with team using Git
     """
     
-    cv_path = input("Enter CV path for quick test: ").strip().strip('"').strip("'")
+    cv_path = "external_lib/resume.pdf"
     
     try:
         agent.analyze_cv_from_file(cv_path)
