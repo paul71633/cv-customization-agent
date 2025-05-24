@@ -8,14 +8,11 @@ import os
 import sys
 from cv_agent.core import CompleteCVAgent
 
+cv_path = "external_lib/resume.pdf"
+
 def get_file_path():
     """Get CV file path from user with validation"""
     while True:
-        # file_path = input("\n📁 Enter path to your CV file (PDF/DOCX): ").strip()
-        
-        # # Handle quotes around file path
-        # file_path = file_path.strip('"').strip("'")
-        
         file_path = "external_lib/resume.pdf"
         
         if not file_path:
@@ -69,7 +66,7 @@ def main():
     
     try:
         # Step 1: Get and analyze CV
-        cv_path = get_file_path()
+        # cv_path = get_file_path()
         print(f"\n⏳ Analyzing CV...")
         
         results = agent.analyze_cv_from_file(cv_path)
@@ -78,11 +75,15 @@ def main():
         while True:
             print(f"\n" + "=" * 50)
             choice = input("What would you like to do next?\n"
-                          "1. Test against a job description\n"
-                          "2. Save results to JSON\n"
-                          "3. View CV summary again\n"
-                          "4. Exit\n"
-                          "Enter choice (1-4): ").strip()
+                  "1. Test against a job description\n"
+                  "2. Initialize AI rewriter (requires HuggingFace token)\n"
+                  "3. Rewrite CV section with AI\n"
+                  "4. Optimize CV for specific role\n"
+                  "5. Get AI improvement suggestions\n"
+                  "6. Save results to JSON\n"
+                  "7. View CV summary again\n"
+                  "8. Exit\n"
+                  "Enter choice (1-8): ").strip()
             
             if choice == '1':
                 # Job matching
@@ -97,17 +98,61 @@ def main():
                     print("❌ No job description provided")
                     
             elif choice == '2':
+                # NEW: Initialize LLM rewriter
+                print("🤖 AI REWRITER SETUP")
+                print("=" * 30)
+                token = input("Enter your HuggingFace token (or press Enter to skip): ").strip()
+                use_local = input("Use local models? (y/n): ").lower().startswith('y')
+                
+                if token or use_local:
+                    agent.initialize_llm_rewriter(token, use_local)
+                else:
+                    print("⚠️ Skipping AI rewriter setup")
+                    
+            elif choice == '3':
+                # NEW: Rewrite CV section
+                if not agent.llm_rewriter:
+                    print("❌ Please initialize AI rewriter first (option 2)")
+                    continue
+                    
+                print("📝 CV SECTION REWRITER")
+                print("=" * 30)
+                print("Available sections:", list(agent.cv_results['sections'].keys()))
+                section = input("Enter section to rewrite: ").strip().lower()
+                target_role = input("Target role (optional): ").strip()
+                tone = input("Tone (professional/confident/humble): ").strip() or "professional"
+                
+                response = agent.rewrite_cv_content(section, target_role, tone)
+                
+            elif choice == '4':
+                # NEW: Optimize for role
+                if not agent.llm_rewriter:
+                    print("❌ Please initialize AI rewriter first (option 2)")
+                    continue
+                    
+                target_role = input("Enter target role: ").strip()
+                if target_role:
+                    results = agent.optimize_cv_for_role(target_role)
+                    
+            elif choice == '5':
+                # NEW: Get suggestions
+                suggestions = agent.get_cv_improvement_suggestions()
+                print("💡 CV IMPROVEMENT SUGGESTIONS:")
+                for i, suggestion in enumerate(suggestions, 1):
+                    print(f"   {i}. {suggestion}")
+                    
+            elif choice == '6':
                 # Save results
                 save_path = input("Enter save path (or press Enter for default): ").strip()
                 if not save_path:
                     save_path = None
                 agent.save_results_to_json(save_path)
                 
-            elif choice == '3':
+            elif choice == '7':
                 # Show summary again
                 agent.print_cv_summary()
                 
-            elif choice == '4':
+            elif choice == '8':
                 print("👋 Goodbye!")
                 break
                 
@@ -143,8 +188,6 @@ def quick_test():
     - Deploy on AWS infrastructure
     - Collaborate with team using Git
     """
-    
-    cv_path = "external_lib/resume.pdf"
     
     try:
         agent.analyze_cv_from_file(cv_path)

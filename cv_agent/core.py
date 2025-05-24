@@ -6,6 +6,8 @@ from collections import Counter
 from io import BytesIO
 import PyPDF2
 from docx import Document
+from .llm_integration import LLMContentRewriter, RewriteRequest, RewriteResponse
+import logging
 
 class CompleteCVAgent:
     """Complete CV Analysis and Job Matching Agent - Local Version"""
@@ -31,6 +33,8 @@ class CompleteCVAgent:
             'creative', 'adaptable', 'organized', 'detail oriented', 'time management',
             'project management', 'agile', 'scrum', 'mentoring', 'collaboration'
         ]
+        
+        self.llm_rewriter = None
 
     # ==================== FILE HANDLING ====================
 
@@ -402,3 +406,81 @@ class CompleteCVAgent:
             print(f"✅ Results saved to: {output_path}")
         except Exception as e:
             print(f"❌ Error saving results: {e}")
+            
+    def initialize_llm_rewriter(self, huggingface_token: str = None, use_local: bool = False):
+        """Initialize the LLM content rewriter"""
+        try:
+            print("🤖 Initializing LLM rewriter...")
+            self.llm_rewriter = LLMContentRewriter(
+                huggingface_token=huggingface_token,
+                use_local=use_local
+            )
+            print("✅ LLM rewriter initialized successfully")
+            return True
+        except Exception as e:
+            print(f"⚠️ LLM initialization failed: {e}")
+            print("💡 You can still use basic CV analysis without LLM features")
+            return False
+
+    def rewrite_cv_content(self, section: str, target_role: str = None, 
+                        tone: str = "professional", focus: str = "general"):
+        """Rewrite specific CV section using LLM"""
+        if not self.llm_rewriter:
+            print("❌ LLM rewriter not initialized. Call initialize_llm_rewriter() first.")
+            return None
+        
+        if not self.cv_results:
+            print("❌ No CV analyzed yet. Analyze a CV first!")
+            return None
+        
+        # Get the section content
+        section_content = self.cv_results.get('sections', {}).get(section, '')
+        if not section_content.strip():
+            print(f"❌ Section '{section}' not found or empty in CV")
+            return None
+        
+        # Get target skills if available
+        target_skills = []
+        if self.cv_results.get('skills_by_category'):
+            for category_skills in self.cv_results['skills_by_category'].values():
+                target_skills.extend(category_skills)
+        
+        # Create rewrite request
+        request = RewriteRequest(
+            content=section_content,
+            target_role=target_role,
+            target_skills=target_skills[:10],  # Limit to top 10 skills
+            tone=tone,
+            focus=focus
+        )
+        
+        # Perform rewrite
+        return self.llm_rewriter.rewrite_cv_section(request)
+
+    def get_cv_improvement_suggestions(self):
+        """Get AI-powered improvement suggestions for the entire CV"""
+        if not self.llm_rewriter:
+            return ["Initialize LLM rewriter to get AI-powered suggestions"]
+        
+        if not self.cv_results:
+            return ["Analyze a CV first to get suggestions"]
+        
+        return self.llm_rewriter.suggest_cv_improvements(self.cv_results)
+
+    def optimize_cv_for_role(self, target_role: str):
+        """Optimize entire CV for a specific role"""
+        if not self.llm_rewriter:
+            print("❌ LLM rewriter not initialized")
+            return {}
+        
+        if not self.cv_results:
+            print("❌ No CV analyzed yet")
+            return {}
+        
+        print(f"\n🎯 OPTIMIZING CV FOR ROLE: {target_role}")
+        print("=" * 50)
+        
+        return self.llm_rewriter.batch_rewrite_cv_sections(
+            self.cv_results, 
+            target_role=target_role
+        )
